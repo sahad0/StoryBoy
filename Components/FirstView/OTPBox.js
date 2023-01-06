@@ -22,22 +22,20 @@ export default function OTPBox({maxLength = 4,}) {
     
 
     useEffect(()=>{
-        RNOTPVerify.getHash().then(k=>{console.log(k);});
+        // RNOTPVerify.getHash().then(k=>{console.log(k);});
         RNOTPVerify.getOtp().then(p =>{
             RNOTPVerify.addListener(message => {
                 try {
                     if(message){
-                        console.log(message);
                         const otp = /(\d{4})/g.exec(message)[1];
-                        console.log(otp);
                         setCode(otp);
                     }
                     } catch (error) {
-                        console.log(error+"wow");
+                        console.log(error);
                     }
             })
 
-        }).catch(err=>{console.log(err+"hi");})
+        }).catch(err=>{console.log(err);})
 
         return ()=>{RNOTPVerify.removeListener()}
     },[]);

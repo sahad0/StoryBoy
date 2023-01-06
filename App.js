@@ -9,6 +9,7 @@ import OTPBox from './Components/FirstView/OTPBox';
       <StatusBar  hidden/>
       {/* <BackgroundImage /> */}
       <OTPBox />     
+
     </SafeAreaView>
   )
 }
