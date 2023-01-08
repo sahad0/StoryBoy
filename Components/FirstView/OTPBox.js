@@ -1,6 +1,6 @@
 import { View, Text, Dimensions, TouchableOpacity, TextInput, Pressable, Keyboard, Button } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import RNOTPVerify, { useOtpVerify } from 'react-native-otp-verify';
+import RNOTPVerify, { useOtpVerify , requestHint} from 'react-native-otp-verify';
 
 export default function OTPBox({maxLength = 4,}) {
     const {width,height} = Dimensions.get("screen");
@@ -9,6 +9,8 @@ export default function OTPBox({maxLength = 4,}) {
 
     const [code,setCode] = useState("");
     const [focused,setFocused] = useState(false);
+    const [hint,setHint] = useState("");
+
     const [no,setNo] = useState(0);
     const ref = useRef(0);
     let arr = [];
@@ -22,7 +24,8 @@ export default function OTPBox({maxLength = 4,}) {
     
 
     useEffect(()=>{
-        // RNOTPVerify.getHash().then(k=>{console.log(k);});
+        RNOTPVerify.getHash().then(k=>{console.log(k);});
+        requestHint().then((val)=>setHint(val)).catch((e)=>console.log(e));
         RNOTPVerify.getOtp().then(p =>{
             RNOTPVerify.addListener(message => {
                 try {
@@ -42,7 +45,9 @@ export default function OTPBox({maxLength = 4,}) {
 
 
 
-
+    useEffect(()=>{
+        console.log(hint);
+    },[hint])
        
    
     useEffect(()=>{
