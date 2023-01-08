@@ -1,27 +1,37 @@
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image, Alert, PermissionsAndroid,Platform } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import  RNFS from "react-native-fs";
 import { useIsFocused } from '@react-navigation/native';
 import { Gesture, GestureDetector,  } from 'react-native-gesture-handler';
 import { runOnJS } from 'react-native-reanimated';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 
 export default function CameraDevice() {
 
     const {height,width} = Dimensions.get("screen");
-    const [photourl,setPhotoUrl] = useState("");
+    const [photoUrl,setPhotoUrl] = useState("");
     const [authorised,setAuthorized] = useState(false);
     const [openCamera,setOpenCamera] = useState(true);
     const [camPosition,setCamPosition] = useState('back');
-    
-    const   [tapNumber, setTapNumber] = useState(0)
     const camRef = useRef(0);
+
+
 
 
 
   useEffect(()=>{
       permAccess();
   },[])
+
+  useEffect(()=>{
+      if(camPosition==='front'){
+        device = devices.front;
+      }
+      else{
+        device = devices.back;
+      }
+  },[camPosition])
 
 
   const permAccess = async ()=>{
@@ -43,14 +53,7 @@ export default function CameraDevice() {
   let device =   camPosition === "front" ? devices.front : devices.back; 
 
 
-  useEffect(()=>{
-      if(camPosition==='front'){
-        device = devices.front;
-      }
-      else{
-        device = devices.back;
-      }
-  },[camPosition])
+
 
   const captureImage = async()=>{
     try {
@@ -65,6 +68,7 @@ export default function CameraDevice() {
       const temp =  await RNFS.moveFile(filePath,newPath) ;
       console.log(newPath);
       setPhotoUrl("file://"+newPath);
+      savePicture(photoUrl);
       
       
     } catch (error) {
@@ -72,6 +76,24 @@ export default function CameraDevice() {
     }
   }
 
+    async function hasAndroidPermission() {
+      const permission = Platform.Version >= 33 ? PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES : PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
+    
+      const hasPermission = await PermissionsAndroid.check(permission);
+      if (hasPermission) {
+        return true;
+      }
+    
+      const status = await PermissionsAndroid.request(permission);
+      return status === 'granted';
+    }
+
+    async function savePicture(tag) {
+      if (Platform.OS === "android" && !(await hasAndroidPermission())) {
+        return;
+      }
+      CameraRoll.save(tag, { type:"photo" })
+    }
 
 
   const onFlipCameraPressed = useCallback(() => {
@@ -102,29 +124,19 @@ export default function CameraDevice() {
     <View style={{flex:1,alignItems:"center",justifyContent:"flex-end",marginBottom:height*0.1,zIndex:1,}}>
       <TouchableOpacity style={{margin:30}} onPress={captureImage}>
       <Text style={{color:"white"}}>Camera</Text>
-{/* 
-     {supportsCameraFlipping===true ?
-      ( <TouchableOpacity onPress={()=>{setCamPosition((p)=>(p=== 'back' ? 'front' : 'back'))}}>
-        <Text style={{color:"white"}}>Reverse</Text>
-      </TouchableOpacity>):<></>
-     } */}
+          {/* 
+              {supportsCameraFlipping===true ?
+                ( <TouchableOpacity onPress={()=>{setCamPosition((p)=>(p=== 'back' ? 'front' : 'back'))}}>
+                  <Text style={{color:"white"}}>Reverse</Text>
+                </TouchableOpacity>):<></>
+              } */}
 
 
       </TouchableOpacity>
-      {
-        photourl ? 
-        <>
-          <Image source={{uri:photourl}} style={{height:height,width:width,zIndex:99999}} />
 
-        </>
-         : 
-         <></>
-      }
-
-     
     </View>
     {
-      device  ? 
+      device && supportsCameraFlipping  ? 
       <>
       <GestureDetector gesture={tap} >
           <Camera
