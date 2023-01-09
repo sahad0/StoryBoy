@@ -21,8 +21,8 @@ import GalleryRoll from './Components/SecondView/GalleryRoll/GalleryRoll';
       <StatusBar  hidden/>
       {/* <BackgroundImage /> */}
       {/* <OTPBox />      */}
-      {/* <Camera /> */}
-      <GalleryRoll />
+      <Camera />
+      {/* <GalleryRoll /> */}
     </SafeAreaView>
     </GestureHandlerRootView>
   )

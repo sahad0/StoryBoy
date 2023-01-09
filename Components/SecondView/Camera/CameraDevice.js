@@ -4,8 +4,18 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import  RNFS from "react-native-fs";
 import { useIsFocused } from '@react-navigation/native';
 import { Gesture, GestureDetector,  } from 'react-native-gesture-handler';
-import { runOnJS } from 'react-native-reanimated';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import Reanimated, {
+  useAnimatedProps,
+  useSharedValue,
+  withSpring,
+  runOnJS
+} from "react-native-reanimated"
+
+const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
+Reanimated.addWhitelistedNativeProps({
+  zoom: true,
+})
 
 export default function CameraDevice() {
 
@@ -117,6 +127,26 @@ export default function CameraDevice() {
 
 
 
+
+
+
+
+
+
+
+    const zoom = useSharedValue(0)
+
+    const onRandomZoomPress = useCallback(() => {
+      zoom.value = withSpring(Math.floor(Math.random()*8));
+    }, [])
+  
+    const animatedProps = useAnimatedProps(
+      () => ({ zoom: zoom.value }),
+      [zoom]
+    )
+
+
+
   // const isFocused = useIsFocused();
 
   return (
@@ -133,18 +163,22 @@ export default function CameraDevice() {
 
 
       </TouchableOpacity>
+      <TouchableOpacity style={{margin:30}} onPress={onRandomZoomPress}>
+        <Text>Zoom</Text>
+      </TouchableOpacity>
 
     </View>
     {
       device && supportsCameraFlipping  ? 
       <>
       <GestureDetector gesture={tap} >
-          <Camera
+          <ReanimatedCamera
             style={StyleSheet.absoluteFill}
             device={device}
             isActive={openCamera}
             photo={true}
             ref={camRef}
+            animatedProps={animatedProps}
           />  
       </GestureDetector>
       </>
