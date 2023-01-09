@@ -11,6 +11,7 @@ import Reanimated, {
   withSpring,
   runOnJS
 } from "react-native-reanimated"
+import throttle from 'lodash.throttle';
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
 Reanimated.addWhitelistedNativeProps({
@@ -115,7 +116,20 @@ export default function CameraDevice() {
   }, [onFlipCameraPressed]);
 
 
-  const tap = Gesture.Tap().numberOfTaps(2).onEnd(()=>{
+
+
+
+  const focusFunction = throttle(async(x,y)=>{
+    try {
+      console.log(x,y);
+
+      await camRef.current.focus({ x: x, y: y })
+    } catch (error) {
+    }
+  },2500)
+
+
+  const doubleTap = Gesture.Tap().numberOfTaps(2).onEnd((e)=>{
       // console.log("Wow");
       try {
         runOnJS(gestFunc)();
@@ -124,6 +138,15 @@ export default function CameraDevice() {
         console.log(error);
       }
     })
+    const singleTap = Gesture.Tap().numberOfTaps(1).onStart((e)=>{
+        try {
+          runOnJS(focusFunction)(e.x,e.y);
+        } catch (error) {
+          console.log(error);
+        }
+    })
+
+    const pinch = Gesture.Pinch().onStart((e)=>{}).onUpdate(()=>{});
 
 
 
@@ -171,7 +194,7 @@ export default function CameraDevice() {
     {
       device && supportsCameraFlipping  ? 
       <>
-      <GestureDetector gesture={tap} >
+      <GestureDetector gesture={Gesture.Exclusive(pinch,Gesture.Exclusive(doubleTap, singleTap))} >
           <ReanimatedCamera
             style={StyleSheet.absoluteFill}
             device={device}
