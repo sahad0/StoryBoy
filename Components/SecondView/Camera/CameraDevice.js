@@ -13,6 +13,7 @@ import Reanimated, {
   interpolate,
   Extrapolate,
   withTiming,
+  withSequence,
 } from "react-native-reanimated"
 import throttle from 'lodash.throttle';
 
@@ -78,7 +79,7 @@ export default function CameraDevice() {
       
       const filePath = photo.path;
       console.log(filePath);
-      const newPath = RNFS.ExternalStorageDirectoryPath + "/kkbhjbk.jpg";
+      const newPath = RNFS.ExternalStorageDirectoryPath + "/615161.jpg";
       const temp =  await RNFS.moveFile(filePath,newPath) ;
       console.log(newPath);
       setPhotoUrl("file://"+newPath);
@@ -168,8 +169,8 @@ export default function CameraDevice() {
       const Zoomie = context.value.startZoom ?? 0;
     
      
-        const scale = interpolate(e.scale, [1 - 1 / SCALE_FULL_ZOOM, 1, SCALE_FULL_ZOOM], [-1, 0, 1], Extrapolate.CLAMP)
-        zoom.value = withTiming(interpolate(scale, [-1, 0, 1], [minZoom, Zoomie, maxZoom], Extrapolate.CLAMP),{duration:500}); 
+        zoom.value = withTiming(interpolate(e.scale, [0, 1.5, 4], [minZoom, minZoom+maxZoom/2, maxZoom], Extrapolate.CLAMP),{duration:400}); 
+        // zoom.value = withTiming(interpolate(scale, [-1, 0, 1], [minZoom, Zoomie, maxZoom], Extrapolate.CLAMP),{duration:200});
        
 
 
