@@ -9,7 +9,10 @@ import Reanimated, {
   useAnimatedProps,
   useSharedValue,
   withSpring,
-  runOnJS
+  runOnJS,
+  interpolate,
+  Extrapolate,
+  withTiming,
 } from "react-native-reanimated"
 import throttle from 'lodash.throttle';
 
@@ -17,6 +20,7 @@ const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
 Reanimated.addWhitelistedNativeProps({
   zoom: true,
 })
+const SCALE_FULL_ZOOM = 3;
 
 export default function CameraDevice() {
 
@@ -26,7 +30,6 @@ export default function CameraDevice() {
     const [openCamera,setOpenCamera] = useState(true);
     const [camPosition,setCamPosition] = useState('back');
     const camRef = useRef(0);
-
 
 
 
@@ -121,8 +124,6 @@ export default function CameraDevice() {
 
   const focusFunction = throttle(async(x,y)=>{
     try {
-      console.log(x,y);
-
       await camRef.current.focus({ x: x, y: y })
     } catch (error) {
     }
@@ -145,28 +146,59 @@ export default function CameraDevice() {
           console.log(error);
         }
     })
+    const zoom = useSharedValue(0);
+    const context = useSharedValue({startZoom:0});
+    const oldScale = useSharedValue({scale:0})
+    const minZoom = device?.minZoom ?? 1;
+    const maxZoom = Math.min(device?.maxZoom ?? 1, 20);
+    let x = 0;
 
-    const pinch = Gesture.Pinch().onStart((e)=>{}).onUpdate(()=>{});
+    const pinch = Gesture.Pinch().onStart((e)=>{
+      context.value.startZoom = zoom.value;
+
+    }).onUpdate((e)=>{
+         x = e.scale;
+      oldScale.value.scale = x;
+      // console.log(oldScale.value.scale);
+
+      if(e.scale<1){
+        e.scale = e.scale+x-0.1;
+      }
+      console.log("E.Scale STarted ---------------"+e.scale);
+      const Zoomie = context.value.startZoom ?? 0;
+    
+     
+        const scale = interpolate(e.scale, [1 - 1 / SCALE_FULL_ZOOM, 1, SCALE_FULL_ZOOM], [-1, 0, 1], Extrapolate.CLAMP)
+        zoom.value = withTiming(interpolate(scale, [-1, 0, 1], [minZoom, Zoomie, maxZoom], Extrapolate.CLAMP),{duration:500}); 
+       
+
+
+    }).onEnd((e)=>{
+      // console.log("OLdScale----------"+ oldScale.value.scale);
+    })
+
+
+
+   
+
+    // console.log(minZoom,maxZoom);
 
 
 
 
 
-
-
-
-
-
-    const zoom = useSharedValue(0)
+    
 
     const onRandomZoomPress = useCallback(() => {
       zoom.value = withSpring(Math.floor(Math.random()*8));
     }, [])
   
-    const animatedProps = useAnimatedProps(
-      () => ({ zoom: zoom.value }),
-      [zoom]
-    )
+    const animatedProps =  useAnimatedProps(() => {
+      const z = Math.max(Math.min(zoom.value, maxZoom), minZoom);
+      return {
+        zoom: z,
+      };
+    }, [maxZoom, minZoom, zoom]);
 
 
 
