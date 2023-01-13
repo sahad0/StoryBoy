@@ -6,6 +6,7 @@ import Camera from './Components/SecondView/Camera/CameraDevice';
 import {PERMISSIONS_TYPE ,multipleRequest,checkPermission,multipleCheck,} from "./Components/Permissions/AppPermission"
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GalleryRoll from './Components/SecondView/GalleryRoll/GalleryRoll';
+import StickerView from './Components/ThirdVIew/StickerView';
 
  function App() {
 
@@ -21,8 +22,10 @@ import GalleryRoll from './Components/SecondView/GalleryRoll/GalleryRoll';
       <StatusBar  hidden/>
       {/* <BackgroundImage /> */}
       {/* <OTPBox />      */}
-      <Camera />
+      {/* <Camera /> */}
       {/* <GalleryRoll /> */}
+      {/* <StickerView /> */}
+     
     </SafeAreaView>
     </GestureHandlerRootView>
   )
