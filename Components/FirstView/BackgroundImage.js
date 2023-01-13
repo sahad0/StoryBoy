@@ -16,10 +16,10 @@ export default function BackgroundImage() {
     const parallaxStyle = useAnimatedStyle(()=>{
         const {pitch,roll,yaw} = sensor.sensor.value;
         return {
-            right:withTiming(interpolate( pitch,[-HALF,HALF],[-200,100]), { duration: 500 }), 
-            left:withTiming(interpolate(roll,[-PI,PI],[-200,0]), { duration: 500 }), 
+            left:withTiming(interpolate( roll,[-PI,PI],[-200,200]), { duration: 800 }), 
+            top:withTiming(interpolate(pitch,[-PI,PI],[-200,0]), { duration: 800 }), 
         }
-    })
+    });
 
   return (
 <>
@@ -34,7 +34,7 @@ export default function BackgroundImage() {
         </View>
        
         
-        <Animated.Image source={require("../../assets/images/spider.png")} style={[{height:height*0.8,width:width,position:"absolute",zIndex:-1}]}  />
+        <Animated.Image source={require("../../assets/images/spider.png")} style={[parallaxStyle,{height:height*0.8,width:width,position:"absolute",zIndex:-1,transform:[{scale:1.3}]}]}  />
 
        
 

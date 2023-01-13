@@ -7,6 +7,7 @@ import {PERMISSIONS_TYPE ,multipleRequest,checkPermission,multipleCheck,} from "
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GalleryRoll from './Components/SecondView/GalleryRoll/GalleryRoll';
 import StickerView from './Components/ThirdVIew/StickerView';
+import ContactList from './Components/FourthView/ContactLIst';
 
  function App() {
 
@@ -25,7 +26,7 @@ import StickerView from './Components/ThirdVIew/StickerView';
       {/* <Camera /> */}
       {/* <GalleryRoll /> */}
       {/* <StickerView /> */}
-     
+     <ContactList />
     </SafeAreaView>
     </GestureHandlerRootView>
   )
