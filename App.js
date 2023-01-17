@@ -21,12 +21,12 @@ import ContactList from './Components/FourthView/ContactLIst';
     <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaView style={styles.bodyContainer} >
       <StatusBar  hidden/>
-      {/* <BackgroundImage /> */}
+      <BackgroundImage />
       {/* <OTPBox />      */}
       {/* <Camera /> */}
       {/* <GalleryRoll /> */}
       {/* <StickerView /> */}
-     <ContactList />
+     {/* <ContactList /> */}
     </SafeAreaView>
     </GestureHandlerRootView>
   )
