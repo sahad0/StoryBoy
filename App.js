@@ -8,6 +8,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GalleryRoll from './Components/SecondView/GalleryRoll/GalleryRoll';
 import StickerView from './Components/ThirdVIew/StickerView';
 import ContactList from './Components/FourthView/ContactLIst';
+import Wifi from './Components/FifthView/Wifi';
+import HomeScreen from './Components/FirstView/HomeScreen';
 
  function App() {
 
@@ -21,12 +23,14 @@ import ContactList from './Components/FourthView/ContactLIst';
     <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaView style={styles.bodyContainer} >
       <StatusBar  hidden/>
-      <BackgroundImage />
+      <HomeScreen />
+      {/* <BackgroundImage /> */}
       {/* <OTPBox />      */}
       {/* <Camera /> */}
       {/* <GalleryRoll /> */}
       {/* <StickerView /> */}
      {/* <ContactList /> */}
+     {/* <Wifi /> */}
     </SafeAreaView>
     </GestureHandlerRootView>
   )
