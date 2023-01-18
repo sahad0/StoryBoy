@@ -15,6 +15,8 @@
 		7699B88040F8A987B510C191 /* libPods-StoryBoy-StoryBoyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-StoryBoy-StoryBoyTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9E40E6A014AB4BFB934CB44B /* Speedy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7100360B4B0C42B8B431551E /* Speedy.ttf */; };
+		A2172F19E0ED4DAF926268C0 /* Oswald.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 838DB0ADCAB24267BBEE4486 /* Oswald.ttf */; };
+		996C307BE4144866A269378E /* OswaldL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6247FA1B5BA4927BA207BF7 /* OswaldL.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-StoryBoy-StoryBoyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StoryBoy-StoryBoyTests.release.xcconfig"; path = "Target Support Files/Pods-StoryBoy-StoryBoyTests/Pods-StoryBoy-StoryBoyTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		7100360B4B0C42B8B431551E /* Speedy.ttf */ = {isa = PBXFileReference; name = "Speedy.ttf"; path = "../assets/fonts/Speedy.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		838DB0ADCAB24267BBEE4486 /* Oswald.ttf */ = {isa = PBXFileReference; name = "Oswald.ttf"; path = "../assets/fonts/Oswald.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E6247FA1B5BA4927BA207BF7 /* OswaldL.ttf */ = {isa = PBXFileReference; name = "OswaldL.ttf"; path = "../assets/fonts/OswaldL.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +159,8 @@
 			isa = "PBXGroup";
 			children = (
 				7100360B4B0C42B8B431551E /* Speedy.ttf */,
+				838DB0ADCAB24267BBEE4486 /* Oswald.ttf */,
+				E6247FA1B5BA4927BA207BF7 /* OswaldL.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -257,6 +263,8 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9E40E6A014AB4BFB934CB44B /* Speedy.ttf in Resources */,
+				A2172F19E0ED4DAF926268C0 /* Oswald.ttf in Resources */,
+				996C307BE4144866A269378E /* OswaldL.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

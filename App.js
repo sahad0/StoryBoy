@@ -10,6 +10,7 @@ import StickerView from './Components/ThirdVIew/StickerView';
 import ContactList from './Components/FourthView/ContactLIst';
 import Wifi from './Components/FifthView/Wifi';
 import HomeScreen from './Components/FirstView/HomeScreen';
+import Router from './Router/Router';
 
  function App() {
 
@@ -23,7 +24,8 @@ import HomeScreen from './Components/FirstView/HomeScreen';
     <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaView style={styles.bodyContainer} >
       <StatusBar  hidden/>
-      <HomeScreen />
+      <Router />
+      {/* <HomeScr    een /> */}
       {/* <BackgroundImage /> */}
       {/* <OTPBox />      */}
       {/* <Camera /> */}

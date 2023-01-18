@@ -54,6 +54,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Speedy.ttf</string>
+		<string>Oswald.ttf</string>
+		<string>OswaldL.ttf</string>
 	</array>
 </dict>
 </plist>

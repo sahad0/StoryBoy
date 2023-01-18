@@ -1,8 +1,9 @@
-import { View, Text, Dimensions, TouchableOpacity, TextInput, Pressable, Keyboard, Button } from 'react-native'
+import { View, Text, Dimensions, TouchableOpacity, TextInput, Pressable, Keyboard, Button, Image } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import RNOTPVerify, { useOtpVerify , requestHint} from 'react-native-otp-verify';
+import Icons from 'react-native-vector-icons/Ionicons'
 
-export default function OTPBox({maxLength = 4,}) {
+export default function OTPBox({maxLength = 4,navigation}) {
     const {width,height} = Dimensions.get("screen");
    
 
@@ -18,14 +19,11 @@ export default function OTPBox({maxLength = 4,}) {
     arr.fill(" ");
 
 
-// You can use the startListener and stopListener to manually trigger listeners again.
-// optionally pass numberOfDigits if you want to extract otp
-// const { hash, otp, message, timeoutError, stopListener, startListener } = useOtpVerify({numberOfDigits: 4});
-    
+ 
 
     useEffect(()=>{
         RNOTPVerify.getHash().then(k=>{console.log(k);});
-        requestHint().then((val)=>setHint(val)).catch((e)=>console.log(e));
+        requestHint().then((val)=>setHint(val)).catch();
         RNOTPVerify.getOtp().then(p =>{
             RNOTPVerify.addListener(message => {
                 try {
@@ -34,20 +32,20 @@ export default function OTPBox({maxLength = 4,}) {
                         setCode(otp);
                     }
                     } catch (error) {
-                        console.log(error);
+                        // console.log(error);
                     }
             })
 
-        }).catch(err=>{console.log(err);})
+        }).catch()
 
         return ()=>{RNOTPVerify.removeListener()}
     },[]);
 
 
 
-    useEffect(()=>{
-        console.log(hint);
-    },[hint])
+    // useEffect(()=>{
+    //     console.log(hint);
+    // },[hint])
        
    
     useEffect(()=>{
@@ -61,7 +59,7 @@ export default function OTPBox({maxLength = 4,}) {
 
     useEffect(()=>{
         setNo(code.length);
-        console.log(no);
+        // console.log(no);
     },[code]);
 
 
@@ -77,24 +75,38 @@ export default function OTPBox({maxLength = 4,}) {
 
   return (
     <>
-    <View style={{alignItems:"center",justifyContent:"center",flex:1}}>
+    <View style={{flex:1,backgroundColor:"white"}}>
+    <View style={{alignItems:"center",justifyContent:"center",flex:1,backgroundColor:"white"}}>
 
-    <TouchableOpacity onPress={()=>{setFocused(false),Keyboard.dismiss()}}  style={{flex:1}}>
-    <View style={{marginTop:height*0.3}}>
-      <Text style={{color:"white",marginLeft:width*0.05,fontFamily:"Speedy",fontSize:height*0.025}}>Spider Auto Fill</Text>
+    <TouchableOpacity activeOpacity={1} onPress={()=>{setFocused(false),Keyboard.dismiss()}}  style={{flex:1}}>
 
-        <View style={{marginTop:height*0.1,flex:1,backgroundColor:"black",alignSelf:"center",flexDirection:"row",justifyContent:"space-around",width:width}}>
+    <View >
+        {/* <Image source={require('../../assets/images/pika.png')} style={{height:150,width:150}} resizeMode={"contain"} /> */}
+        <TouchableOpacity onPress={()=>{navigation.navigate("Home")}} style={{backgroundColor:"white",height:height*0.075,width:height*0.075,margin:20,borderRadius:height,borderColor:"black",elevation:8,justifyContent:"center",alignItems:"center"}}>
+                <Icons name='ios-chevron-back-outline' size={30}  color={"black"} />
+        </TouchableOpacity>
+        {
+            hint ? <Text style={{color:"gray",margin:25,marginBottom:0,fontFamily:"OswaldL",fontSize:20}}>Otp has been sent to your mobile no: {hint?hint:""}</Text> : <><Text style={{color:"gray",margin:25,marginBottom:0,fontFamily:"OswaldL",fontSize:20}}>Sorry, no phone no detected !</Text></>
+        }
+
+        <View style={{backgroundColor:"black",marginTop:height*0.1,backgroundColor:"white",flexDirection:"row",justifyContent:"space-around",width:width}}>
         
         {
                 arr.map((_,i)=>{
                     return (
-                        <TouchableOpacity onPress={()=>{setFocused(true)}} key={i} style={{height:50,width:50,borderColor:code[i] ? "purple": no===i?"purple":"white",borderWidth:1,borderRadius:width*0.02}}>
-                            <Text style={{fontSize:height*0.04,color:"purple",alignSelf:"center"}}>{code[i]? code[i]:" "}</Text>
+                        <TouchableOpacity activeOpacity={0.5} onPress={()=>{setFocused(true)}} key={i} style={{elevation:3,height:50,width:50,borderColor:code[i] ? "#050167": no===i?"#050167":"black",borderWidth:2,borderRadius:width*0.02}}>
+                            <Text style={{fontSize:height*0.04,color:"black",alignSelf:"center"}}>{code[i]? code[i]:" "}</Text>
                         </TouchableOpacity>
                     )
                 })
         }
         
+        </View>
+        <View style={{flexDirection:"row",margin:22,marginTop:50}}>
+            <Text style={{color:"gray",}}>Didn't recieve code?</Text>
+            <TouchableOpacity>
+            <Text style={{color:"black",marginLeft:7,textDecorationLine:"underline"}}>Request again</Text>
+            </TouchableOpacity>
         </View>
 
     </View> 
@@ -104,6 +116,12 @@ export default function OTPBox({maxLength = 4,}) {
        
     </View>
     <TextInput  onChangeText={(e)=>{setCode(e)}}  ref={ref} style={{position:"absolute",color:"black",opacity:0,marginTop:height*2}} keyboardType={"number-pad"} maxLength={maxLength} />
+    
+    <TouchableOpacity onPress={()=>{navigation.navigate("Action")}} style={{backgroundColor:"white"}}>
+    <Image source={require('../../assets/images/gym.png')} style={{height:75,width:75,margin:50,marginLeft:width*0.75}} resizeMode={"contain"} />
+
+    </TouchableOpacity>
+    </View>
     </>
   )
 }
